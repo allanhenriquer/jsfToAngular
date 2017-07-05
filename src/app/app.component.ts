@@ -9,19 +9,25 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
 
-   changeListener($event) : void {
+   loadFile($event) : void {
+    console.log("era para ler o arquivo!");
     this.readThis($event.target);
+    debugger;
   }
 
   readThis(inputValue: any) : void {
-    var file:File = inputValue.files[0]; 
+    var files:File = inputValue.files; 
     var myReader:FileReader = new FileReader();
 
     myReader.onloadend = function(e){
       // you can perform an action with readed data here
       console.log(myReader.result);
     }
-
-    myReader.readAsText(file);
+    if (files.type !== ".xhtml") {
+      myReader.readAsText(files);  
+    } else {
+      myReader.readAsArrayBuffer(files);
+    }
+    
   }
 }

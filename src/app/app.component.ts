@@ -33,7 +33,17 @@ export class AppComponent {
     console.log(strHtml);
     var strTag: string;
     var posicao: number = 0;
+    var regex:string;
+    var metaTag: RegExp;
+    var match: RegExpExecArray;
+    var match2: RegExpMatchArray;
 
+    //metaTag = new RegExp("<\w{1,}:\w{1,}.*");
+    match2 = strHtml.match("/<\w{1,}:\w{1,}.*/g");
+    match = metaTag.exec(strHtml);
+
+    console.log("mach2=" + match2)
+    console.log("mac2=" + match                                                             )
     strTag = strHtml.sub();
 
 

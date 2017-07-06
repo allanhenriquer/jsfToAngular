@@ -1,0 +1,53 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<body>
+<div id="telainteira" align="center">
+  <div id="icone">
+
+    <img class="img-responsive" src="../assets/angular-icon.png"/>
+
+  </div>
+  <div id="espaco">
+  </div>
+
+  <div id="conteudo">
+    <div class="row">
+      <div class="col-xs-3">
+      </div>
+      <div class="col-xs-6">
+
+          <label style="color:white;" for="usr">Origem:</label>
+          <div class="input-group ">
+          <input type="text" class="form-control" id="origem">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default">
+              <span class="glyphicon glyphicon-upload"></span>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+    
+    <div id="espaco">
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-3">
+      </div>
+      <div class="col-xs-6">
+
+
+          <div class="input-group ">
+            <div class="input-group-btn">
+              <a target="_self" href="http://www.planetpublish.com/wp-content/uploads/2011/11/The_Jungle_Book_T.pdf" download="foo.pdf">
+              <button type="button" class="btn btn-default">Download <span class="glyphicon glyphicon-download-alt"></span></button>
+              </a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <input type="file" (change)="changeListener($event)" #input />
+</div>
+</body>

@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 
 /target/
 
+=======
+>>>>>>> d52a1900e8c2ff208f59a8d6553b1516c2d6210a
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
@@ -43,4 +46,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+<<<<<<< HEAD
 
+=======
+>>>>>>> d52a1900e8c2ff208f59a8d6553b1516c2d6210a

@@ -22,8 +22,6 @@ export class AppComponent {
     var file: File = inputValue.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = function (e) {
-      console.log("ainda nao carregou");
-      console.log("ja carregou");
       AppComponent.prototype.convMain(myReader.result);
     }
 
@@ -36,19 +34,20 @@ export class AppComponent {
     console.log(strHtml);
     var strTag: string;
     var posicao: number = 0;
-    // var strHtml : string;
+
+    strTag = strHtml.sub();
 
 
     switch (strTag) {
       case "input":
-        this.convInput(strHtml);
+        this.convInput(strTag);
         console.log('Final de switch - input');
         break;
       case "label":
-        this.convLabel(strHtml);
+        this.convLabel(strTag);
         break;
       case "div":
-        this.convDiv(strHtml);
+        this.convDiv(strTag);
         break;
       case "button":
         break;

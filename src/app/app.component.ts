@@ -65,20 +65,20 @@ export class AppComponent {
     html = "<h:outputText   value = 'diego righi'></h:outputtext>"
 
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
+    var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+
 
     if (html.match(regxValueApas) != null) { //verifica se tem value
 
-      var valorTagValue = this.pegarValue(html);
+      var valorTagValue = this.pegaConteudo(html,regxStyleApas);
 
       var tagCorreta = "<label>" + valorTagValue + "</label>"
 
       console.log(tagCorreta);
 
-      var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
-
       if (html.match(regxStyleApas) != null) { //verifica se tem style
 
-
+        var valorTagStyle = this.pegaConteudo(html,regxStyleApas);
 
       } else {
 
@@ -92,7 +92,7 @@ export class AppComponent {
     return "";
   }
 
-  pegarValue(html: string): string {
+  pegaConteudo(html: string, regxToFind): string {
 
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
     var regxValue = /value\s*=*\s*/; //identifica apenas o value=

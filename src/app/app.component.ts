@@ -26,7 +26,6 @@ export class AppComponent {
     }
 
     myReader.readAsText(file);
-   // this.convMain(myReader.result);
   }
 
   convMain(strHtml: string): void {

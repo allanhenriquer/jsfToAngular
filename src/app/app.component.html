@@ -18,9 +18,9 @@
 
           <label style="color:white;" for="usr">Origem:</label>
           <div class="input-group ">
-            <input type="text" class="form-control" id="origem">
+            <input type="file" class="form-control" id="origem">
             <div class="input-group-btn">
-              <button type="button" class="btn btn-default">
+              <button type="button" class="btn btn-default" (click)="loadFile()">
               <span class="glyphicon glyphicon-upload"></span>
               </button>
             </div>
@@ -48,6 +48,5 @@
         </div>
       </div>
     </div>
-    <input type="file" (change)="changeListener($event)" #input />
   </div>
 </body>

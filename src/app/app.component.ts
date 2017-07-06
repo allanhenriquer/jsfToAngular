@@ -13,18 +13,12 @@ export class AppComponent {
     this.fileString;
   }
 
-  loadFile(): void{
-    debugger;
+  loadFile(): void {
     var file = document.getElementById("origem");
     this.readThis(file);
   }
 
-  // changeListener($event): void {
-  //   this.readThis($event.target);
-  // }
-
   readThis(inputValue: any): void {
-    debugger;
     var file: File = inputValue.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = function (e) {

@@ -27,9 +27,9 @@ export class AppComponent {
     debugger;
     var file: File = inputValue.files[0];
     var myReader: FileReader = new FileReader();
-    myReader.onloadend = function (e) {
-      AppComponent.prototype.convMain(myReader.result);
-    }
+      myReader.onloadend = function (e) {
+        AppComponent.prototype.convMain(myReader.result);
+      }
 
     myReader.readAsText(file);
   }

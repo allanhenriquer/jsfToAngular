@@ -13,9 +13,15 @@ export class AppComponent {
     this.fileString;
   }
 
-  changeListener($event): void {
-    this.readThis($event.target);
+  loadFile(): void{
+    debugger;
+    var file = document.getElementById("origem");
+    this.readThis(file);
   }
+
+  // changeListener($event): void {
+  //   this.readThis($event.target);
+  // }
 
   readThis(inputValue: any): void {
     debugger;
@@ -29,7 +35,6 @@ export class AppComponent {
   }
 
   convMain(strHtml: string): void {
-    console.log("entrou no metodo convMain");
     console.log(strHtml);
     var strTag: string;
     var posicao: number = 0;

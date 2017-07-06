@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,26 +7,67 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  public fileString;
 
-   loadFile($event) : void {
-    console.log("era para ler o arquivo!");
-    this.readThis($event.target);
-    debugger;
+  constructor() {
+    this.fileString;
   }
 
-  readThis(inputValue: any) : void {
-    var files:File = inputValue.files; 
-    var myReader:FileReader = new FileReader();
+  changeListener($event): void {
+    this.readThis($event.target);
+  }
 
-    myReader.onloadend = function(e){
-      // you can perform an action with readed data here
-      console.log(myReader.result);
+  readThis(inputValue: any): void {
+    debugger;
+    var file: File = inputValue.files[0];
+    var myReader: FileReader = new FileReader();
+    myReader.onloadend = function (e) {
+      AppComponent.prototype.convMain(myReader.result);
     }
-    if (files.type !== ".xhtml") {
-      myReader.readAsText(files);  
-    } else {
-      myReader.readAsArrayBuffer(files);
+
+    myReader.readAsText(file);
+  }
+
+  convMain(strHtml: string): void {
+    console.log("entrou no metodo convMain");
+    console.log(strHtml);
+    var strTag: string;
+    var posicao: number = 0;
+
+    strTag = strHtml.sub();
+
+
+    switch (strTag) {
+      case "input":
+        this.convInput(strTag);
+        console.log('Final de switch - input');
+        break;
+      case "label":
+        this.convLabel(strTag);
+        break;
+      case "div":
+        this.convDiv(strTag);
+        break;
+      case "button":
+        break;
+
     }
-    
+  }
+
+  convInput(html: string): string {
+    console.log('antes');
+    return html && html.replace('p:outputPanel', 'teste');
+  }
+
+  convLabel(html: string): string {
+    return "";
+  }
+
+  convDiv(html: string): string {
+    return "";
+  }
+
+  convButton(html: string): string {
+    return "";
   }
 }

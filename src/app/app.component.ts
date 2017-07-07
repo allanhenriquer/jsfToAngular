@@ -84,10 +84,6 @@ export class AppComponent {
     console.log("Novo HTML = " + strHtmlConvertido);
   }
 
-  convInput(html: string): string {
-    return "<input type='text'>";
-  }
-
   convDiv(html: string): string {
     return "<div>";
   }
@@ -279,11 +275,14 @@ export class AppComponent {
 
     var valorTagStyle = "";
     var valorTagStyleClass = "";
+    var valorTagId = "";
 
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
     var regxValue = /value\s*=*\s*/; //identifica value=
 
-    var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+    var regxStyleAspas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+
+    var regxIdAspas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica id="conteudo"
 
     var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
 
@@ -291,9 +290,9 @@ export class AppComponent {
 
       var valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
 
-      if (html.match(regxStyleApas) !== null) { //verifica se tem style
+      if (html.match(regxStyleAspas) !== null) { //verifica se tem style
 
-        var arrStyle = regxStyleApas.exec(html);
+        var arrStyle = regxStyleAspas.exec(html);
         valorTagStyle = " " + arrStyle[0];
 
       }
@@ -306,9 +305,16 @@ export class AppComponent {
 
       }
 
+      if (html.match(regxIdAspas) !== null) { //verifica se tem id
+
+        var arrId = regxIdAspas.exec(html);
+        valorTagId = " " + arrId[0];
+
+      }
+
     }
 
-    html = '<label' + valorTagStyle + valorTagStyleClass + '>' + valorTagValue + "</label>";
+    html = '<label' + valorTagStyle + valorTagStyleClass + valorTagId + '>' + valorTagValue;
     console.log(html);
 
     return html;
@@ -328,6 +334,32 @@ export class AppComponent {
     var sbStrValue = novoRegx[0].substring(indexValue + 7, novoRegx[0].length - 1);
 
     return sbStrValue;
+  }
+
+  convInput(html: string): string {
+
+    var regxInputText = /p:inputText\s*/; //identifica p:inputText
+    var regxRendered = /rendered\s*=*\s*/;
+    var regxBinding = /\s*binding\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
+    var regxConverter = /\s*converter\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
+    var regxImmediate = /\s*immediate\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
+    var regxValidator = /\s*validator\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
+    var regxStyleClass = /styleClass\s*=*\s*/;
+
+    html = html.replace(regxInputText,"input ");
+
+    if(html.search(regxRendered) || html.search(regxBinding) || html.search(regxConverter) ||
+    html.search(regxImmediate) || html.search(regxValidator) || regxStyleClass !== null){
+      
+      html = html.replace(regxRendered,"*ngIf=");
+      html = html.replace(regxBinding,"");
+      html = html.replace(regxConverter,"");
+      html = html.replace(regxImmediate,"");
+      html = html.replace(regxValidator,"");
+      html = html.replace(regxStyleClass,"class=");
+
+    } 
+    return html;
   }
 
 }

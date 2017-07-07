@@ -39,8 +39,8 @@ export class AppComponent {
     var arrayCloseTagFrom: string[];
     var arrayCloseTagTo: string[];
 
-    arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<p:commandLink"];
-    arrayCloseTagTo = ["</div>", "</label>", "</button>"];
+    arrayCloseTagFrom = ["<p:outputPanel", "" , "<h:outputLabel", "" ,  "<p:commandButton" , "<p:commandLink"];
+    arrayCloseTagTo = ["</div>", "" ,"</label>", "" , "</button>" , "</a>"];
 
     strHtml.replace(/\n/gm, '');
     arrayTag = strHtml.match(regx);
@@ -68,6 +68,14 @@ export class AppComponent {
                   break;
                 case 4:
                   break;
+                case 5:
+                  this.convButton(strTag);
+                  console.log("strTag=" + strTag);
+                   console.log("convButton=" + this.convButton(strTag));
+                case 6:
+                  this.convLink(strTag);
+                  console.log("strTag=" + strTag);
+                   console.log("convLink=" + this.convLink(strTag));   
               }
         }
         x++;
@@ -77,8 +85,196 @@ export class AppComponent {
     console.log("Novo HTML = " + strHtmlConvertido);
   }
 
-  convButton(html: string): string {
-    return "<button>";
+  convInput(html: string): string {
+    return "<input type='text'>";
+  }
+
+  convDiv(html: string): string {
+    return "<div>";
+  }
+
+  convButton(html : string) : string {
+
+    var valorTagStyle = "";
+    var valorTagStyleClass = "";
+    var valorId = "";
+    var valorOnClick = "";
+
+
+    var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
+    var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
+    var pegaVal = /value\s*/ ;
+    var regxValue = /value\s*=*\s*/; //identifica value=
+    var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+    var regxStyle = /style\s*=*\s*/; //identifica style=
+    var regxIdApas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Id="conteudo"
+    var regxonclickApas = /onclick\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica onclick="conteudo"
+
+    if(html !== null){
+
+    if (html.match(regxValueApas) !== null) { //verifica se tem value
+
+      var valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+    }
+    
+      if (html.match(regxIdApas) !== null) { //verifica se tem id
+
+        var arrId = regxIdApas.exec(html);
+        
+        valorId = " " + arrId[0];
+
+      }
+
+      if (html.match(regxStyleApas) !== null) { //verifica se tem style
+
+        var arrStyle = regxStyleApas.exec(html);
+        
+        valorTagStyle = " " + arrStyle[0];
+
+      }
+
+      if (html.match(regxonclickApas) !== null) { //verifica se tem onclick
+
+        var arrOnClicklang = regxonclickApas.exec(html);
+        
+        valorOnClick = " " + arrOnClicklang[0];
+
+      }
+
+
+      if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
+
+        var arrStyleClass = regxStyleClassApas.exec(html);
+        valorTagStyleClass = " " + arrStyleClass[0];
+        valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
+
+      }
+
+      var tagCorreta = "<button " + valorId+ valorTagStyleClass + " " + valorTagStyle + ">"+ valorTagValue +"</button>"
+
+      //alert(tagCorreta);
+	
+	return tagCorreta;
+      
+    } else {
+
+      html = "Error";
+      console.log(html);
+		return html;
+    }
+
+  }
+
+
+  convLink(html : string) : string {
+
+    var valorTagStyle = "";
+    var valorTagStyleClass = "";
+    var valorHrefLang = "";
+    var valorRel = "";
+    var valorRev = "";
+    var valorTarget = "";
+    var valorId = "";
+    var valorTagValue = "";
+    var valorOnClick = "";
+
+    var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
+    var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
+    var pegaVal = /value\s*/ ;
+    var regxValue = /value\s*=*\s*/; //identifica value=
+    var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+    var regxStyle = /style\s*=*\s*/; //identifica style=
+    var regxRelApas = /rel\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Rel="conteudo"
+    var regxRevApas = /rev\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Rev="conteudo"
+    var regxValorTargetApas = /target\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica target="conteudo"
+    var regxValorHrefLangApas = /hreflang\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica hreflang="conteudo"
+    var regxIdApas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Id="conteudo"
+    var regxonclickApas = /onclick\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica onclick="conteudo"
+
+    if(html !== null){
+
+    if (html.match(regxValueApas) != null) { //verifica se tem value
+
+       valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+    }
+    
+    
+
+      if (html.match(regxonclickApas) !== null) { //verifica se tem onclick
+
+        var arrOnClicklang = regxonclickApas.exec(html);
+        
+        valorOnClick = " " + arrOnClicklang[0];
+
+      }
+
+      if (html.match(regxValorHrefLangApas) !== null) { //verifica se tem hreflang
+
+        var arrStyleHreflang = regxValorHrefLangApas.exec(html);
+        
+        valorHrefLang = " " + arrStyleHreflang[0];
+
+      }
+
+       if (html.match(regxIdApas) !== null) { //verifica se tem id
+
+        var arrId = regxIdApas.exec(html);
+        
+        valorId = " " + arrId[0];
+
+      }
+
+      if (html.match(regxRevApas) !== null) { //verifica se tem rev
+
+        var arrStyleRev = regxRevApas.exec(html);
+        
+        valorRev = " " + arrStyleRev[0];
+
+      }
+      if (html.match(regxValorTargetApas) !== null) { //verifica se tem target
+
+        var arrStyleTarget = regxValorTargetApas.exec(html);
+        
+        valorTarget = " " + arrStyleTarget[0];
+
+      }
+      if (html.match(regxStyleApas) !== null) { //verifica se tem style
+
+        var arrStyle = regxStyleApas.exec(html);
+        
+        valorTagStyle = " " + arrStyle[0];
+
+      }
+
+       if (html.match(regxRelApas) !== null) { //verifica se tem rel
+
+        var arrStyleRel = regxRelApas.exec(html);
+        
+        valorRel = " " + arrStyleRel[0];
+
+      }
+
+      if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
+
+        var arrStyleClass = regxStyleClassApas.exec(html);
+        valorTagStyleClass = " " + arrStyleClass[0];
+        valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
+
+      }
+
+      var tagCorreta = "<a" + valorOnClick + valorId + valorTarget + valorRel + valorRev + valorHrefLang + valorTagStyleClass + " " + valorTagStyle + ">"+ valorTagValue +"</a>"
+
+      //alert(tagCorreta);
+
+      return tagCorreta;
+    } else {
+
+      html = "Error";
+      console.log(html);
+		return html;
+    }
+
+>>>>>>> motor de button e link
   }
 
   convLabel(html: string): string {

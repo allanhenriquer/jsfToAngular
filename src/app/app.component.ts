@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'app';
   public fileString;
@@ -24,49 +25,70 @@ export class AppComponent {
     myReader.onloadend = function (e) {
       AppComponent.prototype.convMain(myReader.result);
     }
-
     myReader.readAsText(file);
   }
 
   convMain(strHtml: string): void {
+<<<<<<< HEAD
+=======
+    
+>>>>>>> motor_freitag
     console.log(strHtml);
-    var strTag: string;
+    var strHtmlConvertido : string;
+    var strTag: string;   
     var posicao: number = 0;
+    var regx = /<\w{1,}:\w{1,}.*/g;
+    var arrayTag: RegExpMatchArray;
+    var arrayCloseTagFrom: string[];
+    var arrayCloseTagTo: string[];
 
-    strTag = strHtml.sub();
+    arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<p:commandLink"];
+    arrayCloseTagTo = ["</div>", "</label>", "</button>"];
 
-
-    switch (strTag) {
-      case "input":
-        this.convInput(strTag);
-        console.log('Final de switch - input');
-        break;
-      case "label":
-        this.convLabel(strTag);
-        break;
-      case "div":
-        this.convDiv(strTag);
-        break;
-      case "button":
-        break;
-
-    }
+    strHtml.replace(/\n/gm, '');
+    arrayTag = strHtml.match(regx);
+    strHtmlConvertido = strHtml;
+    
+    arrayTag.forEach(element => {
+      strTag = element;
+      var x : number = 1;
+      arrayCloseTagFrom.forEach(element2 => {
+        if (element.indexOf(element2) != -1) {
+              switch (x) {
+                case 1:
+                  strHtmlConvertido.replace(strTag, "");
+                  console.log("strTag=" + strTag);
+                  console.log("convDiv=" + this.convDiv(strTag));
+                  break;
+                case 2:
+                  //this.convLabel(strTag);
+                  break;
+                case 3:
+                  this.convInput(strTag);
+                  console.log("strTag=" + strTag);
+                   console.log("convInput=" + this.convInput(strTag));
+                  break;
+                case 4:
+                  break;
+              }
+        }
+        x++;
+      });
+    });
+    strHtmlConvertido.replace("<p:outputPanel","");
+    console.log("Novo HTML = " + strHtmlConvertido);
   }
 
   convInput(html: string): string {
-    console.log('antes');
-    return html && html.replace('p:outputPanel', 'teste');
-  }
-
-  convLabel(html: string): string {
-    return "";
+    return "<input type='text'>";
   }
 
   convDiv(html: string): string {
-    return "";
+    return "<div>";
   }
 
   convButton(html: string): string {
-    return "";
+    return "<button>";
   }
+
 }

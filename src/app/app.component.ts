@@ -29,10 +29,7 @@ export class AppComponent {
   }
 
   convMain(strHtml: string): void {
-<<<<<<< HEAD
-=======
-    
->>>>>>> motor_freitag
+
     console.log(strHtml);
     var strHtmlConvertido : string;
     var strTag: string;   
@@ -89,6 +86,61 @@ export class AppComponent {
 
   convButton(html: string): string {
     return "<button>";
+  }
+
+  convLabel(html: string): string {
+
+    var valorTagStyle = "";
+    var valorTagStyleClass = "";
+
+    var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
+    var regxValue = /value\s*=*\s*/; //identifica value=
+
+    var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
+
+    var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
+
+    if (html.match(regxValueApas) != null) { //verifica se tem value
+
+      var valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+
+      if (html.match(regxStyleApas) !== null) { //verifica se tem style
+
+        var arrStyle = regxStyleApas.exec(html);
+        valorTagStyle = " " + arrStyle[0];
+
+      }
+
+      if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
+
+        var arrStyleClass = regxStyleClassApas.exec(html);
+        valorTagStyleClass = " " + arrStyleClass[0];
+        valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
+
+      }
+
+    }
+
+    html = '<label' + valorTagStyle + valorTagStyleClass + '>' + valorTagValue + "</label>";
+    console.log(html);
+
+    return html;
+  }
+
+  pegaConteudo(html: string, regxToFindAspas, regxToFind): string {
+
+    var regxEspaco = /\s/g;
+
+    var pegaValue = regxToFind.exec(html);
+    pegaValue[0] = pegaValue[0].replace(regxEspaco, "");
+    var html = html.replace(regxToFind, pegaValue[0]);
+
+    var novoRegx = regxToFindAspas.exec(html);
+
+    var indexValue = novoRegx[0].indexOf("value");
+    var sbStrValue = novoRegx[0].substring(indexValue + 7, novoRegx[0].length - 1);
+
+    return sbStrValue;
   }
 
 }

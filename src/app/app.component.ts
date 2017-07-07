@@ -30,11 +30,11 @@ export class AppComponent {
 
   convMain(strHtml: string): void {
 
-    console.log(strHtml);
+    // console.log(strHtml);
     var strHtmlConvertido : string;
     var strTag: string;   
     var posicao: number = 0;
-    var regx = /<\w{1,}:\w{1,}.*/g;
+    var regx = /<\w{1,}:\w{1,}\s.*/g;
     var arrayTag: RegExpMatchArray;
     var arrayCloseTagFrom: string[];
     var arrayCloseTagTo: string[];
@@ -51,14 +51,15 @@ export class AppComponent {
       var x : number = 1;
       arrayCloseTagFrom.forEach(element2 => {
         if (element.indexOf(element2) != -1) {
+              // console.log(ele);
               switch (x) {
                 case 1:
                   strHtmlConvertido.replace(strTag, "");
                   console.log("strTag=" + strTag);
-                  console.log("convDiv=" + this.convDiv(strTag));
+                  // console.log("convDiv=" + this.convDiv(strTag));
                   break;
                 case 2:
-                  //this.convLabel(strTag);
+                  this.convLabel(strTag);
                   break;
                 case 3:
                   this.convInput(strTag);

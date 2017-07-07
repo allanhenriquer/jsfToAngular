@@ -76,10 +76,6 @@ export class AppComponent {
     console.log("Novo HTML = " + strHtmlConvertido);
   }
 
-  convDiv(html: string): string {
-    return "<div>";
-  }
-
   convButton(html: string): string {
     return "<button>";
   }
@@ -172,6 +168,13 @@ export class AppComponent {
       html = html.replace(regxStyleClass,"class=");
 
     } 
+    return html;
+  }
+
+  convDiv(html: string): string {
+    html =  html.replace("p:outputPanel","div");
+    html =  html.replace("styleClass","class");
+    html =  html.replace("rendered","*ngIf");
     return html;
   }
 

@@ -33,7 +33,7 @@ export class AppComponent {
     var strTag: string;
     var posicao: number = 0;
 
-    strTag = strHtml.sub();
+    strTag = "div";
 
 
     switch (strTag) {
@@ -63,7 +63,17 @@ export class AppComponent {
   }
 
   convDiv(html: string): string {
-    return "";
+    html = '<p:outputPanel styleClass="col-xs-1" style="width: 50px">'
+    console.log(html);
+    var regex = new RegExp(`\w*?\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1`, html);
+    var text = regex.source;
+    var atrib = text.split("=")
+    atrib.shift;
+    console.log(atrib);
+  
+    
+
+    return "a";
   }
 
   convButton(html: string): string {

@@ -30,7 +30,7 @@ export class AppComponent {
 
   convMain(strHtml: string): void {
 
-    var strHtmlConvertido: string;
+    var strHtmlConvertido: string = "";
     var strTag: string;
     var posicao: number = 0;
     var regx = /<\w{1,}:\w{1,}\s.*/g;
@@ -41,46 +41,41 @@ export class AppComponent {
     arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
     arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
-    strHtml.replace(/\n/gm, '');
+    strHtml = strHtml.replace(/\n/gm, '');
     arrayTag = strHtml.match(regx);
-    strHtmlConvertido = strHtml;
 
     arrayTag.forEach(element => {
       strTag = element;
       var x: number = 1;
       arrayCloseTagFrom.forEach(element2 => {
+        var next :string = "";
         if (element.indexOf(element2) != -1) {
           switch (x) {
             case 1:
-              this.convDiv(strTag);
-              strHtmlConvertido.replace(strTag, "");
+              next = this.convDiv(strTag);
               break;
             case 2:
-              this.convLabel(strTag);
+              next = this.convLabel(strTag);
               break;
             case 3:
-              this.convInput(strTag);
+              next = this.convInput(strTag);
               break;
             case 4:
-              this.convButton(strTag);
+              next = this.convButton(strTag);
+              break;
             case 5:
-              this.convLink(strTag);
+              next = this.convLink(strTag);
+              break;
           }
+          strHtmlConvertido = strHtmlConvertido.concat(next);
+          // console.log(strHtmlConvertido);
         }
         x++;
       });
     });
-    strHtmlConvertido.replace("<p:outputPanel", "");
-    // console.log("Novo HTML = " + strHtmlConvertido);
+    strHtmlConvertido = strHtmlConvertido.trim();
+    console.log("Novo HTML = " + strHtmlConvertido);
   }
-
-  // convInput(html: string): string {
-  //   return "<input type='text'>";
-  // }
-
-  // convDiv(html: string): string {
-  //   return "<div>";
-  // }
 
   convButton(html: string): string {
 

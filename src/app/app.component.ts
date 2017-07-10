@@ -30,139 +30,114 @@ export class AppComponent {
 
   convMain(strHtml: string): void {
 
-    console.log(strHtml);
-    var strHtmlConvertido : string;
-    var strTag: string;   
+    var strHtmlConvertido: string;
+    var strTag: string;
     var posicao: number = 0;
-    var regx = /<\w{1,}:\w{1,}.*/g;
+    var regx = /<\w{1,}:\w{1,}\s.*/g;
     var arrayTag: RegExpMatchArray;
     var arrayCloseTagFrom: string[];
     var arrayCloseTagTo: string[];
 
-    arrayCloseTagFrom = ["<p:outputPanel", "" , "<h:outputLabel", "" ,  "<p:commandButton" , "<p:commandLink"];
-    arrayCloseTagTo = ["</div>", "" ,"</label>", "" , "</button>" , "</a>"];
+    arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
+    arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
     strHtml.replace(/\n/gm, '');
     arrayTag = strHtml.match(regx);
     strHtmlConvertido = strHtml;
-    
+
     arrayTag.forEach(element => {
       strTag = element;
-      var x : number = 1;
+      var x: number = 1;
       arrayCloseTagFrom.forEach(element2 => {
         if (element.indexOf(element2) != -1) {
-              switch (x) {
-                case 1:
-                  strHtmlConvertido.replace(strTag, "");
-                  console.log("strTag=" + strTag);
-                  console.log("convDiv=" + this.convDiv(strTag));
-                  break;
-                case 2:
-                  //this.convLabel(strTag);
-                  break;
-                case 3:
-                  this.convInput(strTag);
-                  console.log("strTag=" + strTag);
-                   console.log("convInput=" + this.convInput(strTag));
-                  break;
-                case 4:
-                  break;
-                case 5:
-                  this.convButton(strTag);
-                  console.log("strTag=" + strTag);
-                   console.log("convButton=" + this.convButton(strTag));
-                case 6:
-                  this.convLink(strTag);
-                  console.log("strTag=" + strTag);
-                   console.log("convLink=" + this.convLink(strTag));   
-              }
+          switch (x) {
+            case 1:
+              this.convDiv(strTag);
+              strHtmlConvertido.replace(strTag, "");
+              break;
+            case 2:
+              this.convLabel(strTag);
+              break;
+            case 3:
+              this.convInput(strTag);
+              break;
+            case 4:
+              this.convButton(strTag);
+            case 5:
+              this.convLink(strTag);
+          }
         }
         x++;
       });
     });
-    strHtmlConvertido.replace("<p:outputPanel","");
-    console.log("Novo HTML = " + strHtmlConvertido);
+    strHtmlConvertido.replace("<p:outputPanel", "");
+    // console.log("Novo HTML = " + strHtmlConvertido);
   }
 
-  convDiv(html: string): string {
-    return "<div>";
-  }
+  // convInput(html: string): string {
+  //   return "<input type='text'>";
+  // }
 
-  convButton(html : string) : string {
+  // convDiv(html: string): string {
+  //   return "<div>";
+  // }
+
+  convButton(html: string): string {
 
     var valorTagStyle = "";
     var valorTagStyleClass = "";
     var valorId = "";
     var valorOnClick = "";
-
+    var valorTagValue = "";
 
     var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
-    var pegaVal = /value\s*/ ;
+    var pegaVal = /value\s*/;
     var regxValue = /value\s*=*\s*/; //identifica value=
     var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
     var regxStyle = /style\s*=*\s*/; //identifica style=
     var regxIdApas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Id="conteudo"
     var regxonclickApas = /onclick\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica onclick="conteudo"
 
-    if(html !== null){
+    if (html !== null) {
 
-    if (html.match(regxValueApas) !== null) { //verifica se tem value
+      if (html.match(regxValueApas) !== null) { //verifica se tem value
 
-      var valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
-    }
-    
+        valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+      }
+
       if (html.match(regxIdApas) !== null) { //verifica se tem id
-
         var arrId = regxIdApas.exec(html);
-        
         valorId = " " + arrId[0];
-
       }
 
       if (html.match(regxStyleApas) !== null) { //verifica se tem style
-
         var arrStyle = regxStyleApas.exec(html);
-        
         valorTagStyle = " " + arrStyle[0];
-
       }
 
       if (html.match(regxonclickApas) !== null) { //verifica se tem onclick
-
         var arrOnClicklang = regxonclickApas.exec(html);
-        
         valorOnClick = " " + arrOnClicklang[0];
-
+        valorOnClick = valorOnClick.replace("onclick","(click)");
       }
 
-
       if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
-
         var arrStyleClass = regxStyleClassApas.exec(html);
         valorTagStyleClass = " " + arrStyleClass[0];
         valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
-
       }
-
-      var tagCorreta = "<button " + valorId+ valorTagStyleClass + " " + valorTagStyle + ">"+ valorTagValue +"</button>"
-
-      //alert(tagCorreta);
-	
-	return tagCorreta;
       
+      var tagCorreta = "<button" + valorOnClick + valorId + valorTagStyleClass + " " + valorTagStyle + ">" + valorTagValue + "</button>"
+      return tagCorreta;
+
     } else {
-
       html = "Error";
-      console.log(html);
-		return html;
+      return html;
     }
-
   }
 
-
-  convLink(html : string) : string {
-
+  convLink(html: string): string {
     var valorTagStyle = "";
     var valorTagStyleClass = "";
     var valorHrefLang = "";
@@ -175,7 +150,6 @@ export class AppComponent {
 
     var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
-    var pegaVal = /value\s*/ ;
     var regxValue = /value\s*=*\s*/; //identifica value=
     var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
     var regxStyle = /style\s*=*\s*/; //identifica style=
@@ -186,67 +160,43 @@ export class AppComponent {
     var regxIdApas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica Id="conteudo"
     var regxonclickApas = /onclick\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica onclick="conteudo"
 
-    if(html !== null){
+    if (html !== null) {
 
-    if (html.match(regxValueApas) != null) { //verifica se tem value
-
-       valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
-    }
-    
-    
+      if (html.match(regxValueApas) != null) { //verifica se tem value
+        valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+      }
 
       if (html.match(regxonclickApas) !== null) { //verifica se tem onclick
-
         var arrOnClicklang = regxonclickApas.exec(html);
-        
         valorOnClick = " " + arrOnClicklang[0];
-
       }
 
       if (html.match(regxValorHrefLangApas) !== null) { //verifica se tem hreflang
-
         var arrStyleHreflang = regxValorHrefLangApas.exec(html);
-        
         valorHrefLang = " " + arrStyleHreflang[0];
-
       }
 
-       if (html.match(regxIdApas) !== null) { //verifica se tem id
-
+      if (html.match(regxIdApas) !== null) { //verifica se tem id
         var arrId = regxIdApas.exec(html);
-        
         valorId = " " + arrId[0];
-
       }
 
       if (html.match(regxRevApas) !== null) { //verifica se tem rev
-
         var arrStyleRev = regxRevApas.exec(html);
-        
         valorRev = " " + arrStyleRev[0];
-
       }
       if (html.match(regxValorTargetApas) !== null) { //verifica se tem target
-
         var arrStyleTarget = regxValorTargetApas.exec(html);
-        
         valorTarget = " " + arrStyleTarget[0];
-
       }
       if (html.match(regxStyleApas) !== null) { //verifica se tem style
-
         var arrStyle = regxStyleApas.exec(html);
-        
         valorTagStyle = " " + arrStyle[0];
-
       }
 
-       if (html.match(regxRelApas) !== null) { //verifica se tem rel
-
+      if (html.match(regxRelApas) !== null) { //verifica se tem rel
         var arrStyleRel = regxRelApas.exec(html);
-        
         valorRel = " " + arrStyleRel[0];
-
       }
 
       if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
@@ -257,66 +207,50 @@ export class AppComponent {
 
       }
 
-      var tagCorreta = "<a" + valorOnClick + valorId + valorTarget + valorRel + valorRev + valorHrefLang + valorTagStyleClass + " " + valorTagStyle + ">"+ valorTagValue +"</a>"
-
-      //alert(tagCorreta);
-
+      var tagCorreta = "<a" + valorOnClick + valorId + valorTarget + valorRel + valorRev + valorHrefLang + valorTagStyleClass + " " + valorTagStyle + ">" + valorTagValue + "</a>"
       return tagCorreta;
     } else {
 
       html = "Error";
-      console.log(html);
-		return html;
+      return html;
     }
 
   }
 
   convLabel(html: string): string {
-
+    var valorTagValue = "";
     var valorTagStyle = "";
     var valorTagStyleClass = "";
     var valorTagId = "";
 
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
     var regxValue = /value\s*=*\s*/; //identifica value=
-
     var regxStyleAspas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
-
     var regxIdAspas = /id\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica id="conteudo"
-
     var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
 
     if (html.match(regxValueApas) != null) { //verifica se tem value
-
-      var valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
+      valorTagValue = this.pegaConteudo(html, regxValueApas, regxValue);
 
       if (html.match(regxStyleAspas) !== null) { //verifica se tem style
-
         var arrStyle = regxStyleAspas.exec(html);
         valorTagStyle = " " + arrStyle[0];
-
       }
 
       if (html.match(regxStyleClassApas) !== null) { //verifica se tem styleClass
-
         var arrStyleClass = regxStyleClassApas.exec(html);
         valorTagStyleClass = " " + arrStyleClass[0];
         valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
-
       }
 
       if (html.match(regxIdAspas) !== null) { //verifica se tem id
-
         var arrId = regxIdAspas.exec(html);
         valorTagId = " " + arrId[0];
-
       }
 
     }
 
     html = '<label' + valorTagStyle + valorTagStyleClass + valorTagId + '>' + valorTagValue;
-    console.log(html);
-
     return html;
   }
 
@@ -338,7 +272,7 @@ export class AppComponent {
 
   convInput(html: string): string {
 
-    var regxInputText = /p:inputText\s*/; //identifica p:inputText
+    var regxInputText = /h:inputText\s*/; //identifica p:inputText
     var regxRendered = /rendered\s*=*\s*/;
     var regxBinding = /\s*binding\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
     var regxConverter = /\s*converter\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
@@ -346,19 +280,26 @@ export class AppComponent {
     var regxValidator = /\s*validator\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
     var regxStyleClass = /styleClass\s*=*\s*/;
 
-    html = html.replace(regxInputText,"input ");
+    html = html.replace(regxInputText, "input ");
 
-    if(html.search(regxRendered) || html.search(regxBinding) || html.search(regxConverter) ||
-    html.search(regxImmediate) || html.search(regxValidator) || regxStyleClass !== null){
-      
-      html = html.replace(regxRendered,"*ngIf=");
-      html = html.replace(regxBinding,"");
-      html = html.replace(regxConverter,"");
-      html = html.replace(regxImmediate,"");
-      html = html.replace(regxValidator,"");
-      html = html.replace(regxStyleClass,"class=");
+    if (html.search(regxRendered) || html.search(regxBinding) || html.search(regxConverter) ||
+      html.search(regxImmediate) || html.search(regxValidator) || regxStyleClass !== null) {
 
-    } 
+      html = html.replace(regxRendered, "*ngIf=");
+      html = html.replace(regxBinding, "");
+      html = html.replace(regxConverter, "");
+      html = html.replace(regxImmediate, "");
+      html = html.replace(regxValidator, "");
+      html = html.replace(regxStyleClass, "class=");
+
+    }
+    return html;
+  }
+
+  convDiv(html: string): string {
+    html = html.replace("p:outputPanel", "div");
+    html = html.replace("styleClass", "class");
+    html = html.replace("rendered", "*ngIf");
     return html;
   }
 

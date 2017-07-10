@@ -71,7 +71,7 @@ export class AppComponent {
       });
     });
     strHtmlConvertido.replace("<p:outputPanel", "");
-    console.log("Novo HTML = " + strHtmlConvertido);
+    // console.log("Novo HTML = " + strHtmlConvertido);
   }
 
   // convInput(html: string): string {

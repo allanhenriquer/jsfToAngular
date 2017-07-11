@@ -41,13 +41,15 @@ export class AppComponent {
     arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
     arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
-    strHtml = strHtml.replace(/\n/gm, '');
+    strHtml = strHtml.replace(/(?:\s)* /gm, ' ');
     arrayTag = strHtml.match(regx);
-
+    console.log(arrayTag);
     arrayTag.forEach(element => {
       strTag = element;
+      
       var x: number = 1;
       arrayCloseTagFrom.forEach(element2 => {
+        console.log(element2);
         var next :string = "";
         if (element.indexOf(element2) != -1) {
           switch (x) {
@@ -66,6 +68,7 @@ export class AppComponent {
             case 5:
               next = this.convLink(strTag);
               break;
+            
           }
           strHtmlConvertido = strHtmlConvertido.concat(next);
           // console.log(strHtmlConvertido);
@@ -73,7 +76,7 @@ export class AppComponent {
         x++;
       });
     });
-    strHtmlConvertido = strHtmlConvertido.trim();
+    // strHtmlConvertido = strHtmlConvertido.trim();
     console.log("Novo HTML = " + strHtmlConvertido);
   }
 

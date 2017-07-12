@@ -37,20 +37,19 @@ export class AppComponent {
     var arrayTag: RegExpMatchArray;
     var arrayCloseTagFrom: string[];
     var arrayCloseTagTo: string[];
+    var arrayTags: string[] = [''];
 
     arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
     arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
-    while(strHtml.search('>') >= 0 ){
-      var position : number = strHtml.search('>');
-        if(strHtml.charAt(position+1) === "<"){
-          ' ' +  strHtml.charAt(position+1);
-            console.log(strHtml);
-        }
-      arrayTag = strHtml.split(strHtml.charAt(position+1));
-    }
-    // arrayTag = strHtml.match(regx);
+    arrayTag = strHtml.split(">");
     arrayTag.forEach(element => {
+      element = element.concat(">");
+      arrayTags.push(element);
+    });
+    console.log(arrayTags.join);
+    // arrayTag = strHtml.match(regx);
+    arrayTags.forEach(element => {
       strTag = element;
       
       var x: number = 1;

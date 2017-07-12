@@ -30,30 +30,26 @@ export class AppComponent {
 
   convMain(strHtml: string): void {
 
-    var strHtmlConvertido: string = "";
-    var strTag: string;
-    var posicao: number = 0;
-    // var regx = /<\/?(?:\w{1,}):?[a-zA-Z0-9\s\="#\{\}\\/\\\'\]\@\:\(\)\;[\-\.]*\/?> /gm;
-    var arrayTag: RegExpMatchArray;
-    var arrayCloseTagFrom: string[];
-    var arrayCloseTagTo: string[];
-    var arrayTags: string[] = [''];
+    let strHtmlConvertido: string = "";
+    let strTag: string;
+    let posicao: number = 0;
+    let arrayTag: RegExpMatchArray;
+    let arrayTagFrom: string[];
+    let arrayCloseTagTo: string[];
+    let arrayTags: string[] = [''];
 
-    arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
-    arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
-
+    arrayTagFrom = ["p:outputPanel", "h:outputLabel", "h:inputText", "p:commandButton", "p:commandLink"];
     arrayTag = strHtml.split(">");
     arrayTag.forEach(element => {
       element = element.concat(">");
       arrayTags.push(element);
     });
-    console.log(arrayTags.join);
-    // arrayTag = strHtml.match(regx);
+    // console.log(arrayTags.join);
     arrayTags.forEach(element => {
       strTag = element;
       
       var x: number = 1;
-      arrayCloseTagFrom.forEach(element2 => {
+      arrayTagFrom.forEach(element2 => {
         var next :string = "";
         if (element.indexOf(element2) != -1) {
           switch (x) {

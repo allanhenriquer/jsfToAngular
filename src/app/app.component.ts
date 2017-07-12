@@ -88,9 +88,9 @@ export class AppComponent {
       });
     });
 
-    strHtmlConvertido = strHtmlConvertido.trim();
-    console.log("Novo HTML = " + strHtmlConvertido);
-
+    strHtmlConvertido.replace("<p:outputPanel", "");
+    this.content = strHtmlConvertido;
+    console.log("Novo HTML = " + this.content);
   }
 
   convButton(html: string): string {

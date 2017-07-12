@@ -42,6 +42,13 @@ export class AppComponent {
     arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
     strHtml = strHtml.replace(/(?:\s)* /gm, ' ');
+    var contador = strHtml.length;
+    while(contador > 0 ){
+      let char :string = strHtml.charAt(contador); 
+      if (char. ) {
+        
+      }
+    }
     arrayTag = strHtml.match(regx);
     console.log(arrayTag);
     arrayTag.forEach(element => {

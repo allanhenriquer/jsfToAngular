@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
   public fileString;
+  private content;
 
   constructor() {
     this.fileString;
@@ -26,6 +27,17 @@ export class AppComponent {
       AppComponent.prototype.convMain(myReader.result);
     }
     myReader.readAsText(file);
+  }
+
+  downloadContent(){
+
+    var uriContent = encodeURIComponent(this.content);  
+    
+    var link = document.createElement('a');
+    link.download = 'xhtmlConvertido.html';
+    link.href = 'data:,' + uriContent;
+    link.click();
+
   }
 
   convMain(strHtml: string): void {
@@ -71,7 +83,8 @@ export class AppComponent {
       });
     });
     strHtmlConvertido.replace("<p:outputPanel", "");
-    // console.log("Novo HTML = " + strHtmlConvertido);
+    this.content = strHtmlConvertido;
+    console.log("Novo HTML = " + this.content);
   }
 
   // convInput(html: string): string {

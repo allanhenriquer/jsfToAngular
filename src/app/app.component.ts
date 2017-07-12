@@ -87,9 +87,10 @@ export class AppComponent {
         x++;
       });
     });
-
-    strHtmlConvertido.replace("<p:outputPanel", "");
+    strHtmlConvertido.trim();
     this.content = strHtmlConvertido;
+    alert("Finalizado!");
+    
     console.log("Novo HTML = " + this.content);
   }
 

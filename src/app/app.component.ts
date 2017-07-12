@@ -33,7 +33,7 @@ export class AppComponent {
     var strHtmlConvertido: string = "";
     var strTag: string;
     var posicao: number = 0;
-    var regx = /<\w{1,}:\w{1,}\s.*/g;
+    // var regx = /<\/?(?:\w{1,}):?[a-zA-Z0-9\s\="#\{\}\\/\\\'\]\@\:\(\)\;[\-\.]*\/?> /gm;
     var arrayTag: RegExpMatchArray;
     var arrayCloseTagFrom: string[];
     var arrayCloseTagTo: string[];
@@ -41,22 +41,20 @@ export class AppComponent {
     arrayCloseTagFrom = ["<p:outputPanel", "<h:outputLabel", "<h:inputText", "<p:commandButton", "<p:commandLink"];
     arrayCloseTagTo = ["</div>", "</label>", "</input>", "</button>", "</a>"];
 
-    strHtml = strHtml.replace(/(?:\s)* /gm, ' ');
-    var contador = strHtml.length;
-    while(contador > 0 ){
-      let char :string = strHtml.charAt(contador); 
-      if (char. ) {
-        
-      }
+    while(strHtml.search('>') >= 0 ){
+      var position : number = strHtml.search('>');
+        if(strHtml.charAt(position+1) === "<"){
+          ' ' +  strHtml.charAt(position+1);
+            console.log(strHtml);
+        }
+      arrayTag = strHtml.split(strHtml.charAt(position+1));
     }
-    arrayTag = strHtml.match(regx);
-    console.log(arrayTag);
+    // arrayTag = strHtml.match(regx);
     arrayTag.forEach(element => {
       strTag = element;
       
       var x: number = 1;
       arrayCloseTagFrom.forEach(element2 => {
-        console.log(element2);
         var next :string = "";
         if (element.indexOf(element2) != -1) {
           switch (x) {
@@ -83,7 +81,7 @@ export class AppComponent {
         x++;
       });
     });
-    // strHtmlConvertido = strHtmlConvertido.trim();
+    strHtmlConvertido = strHtmlConvertido.trim();
     console.log("Novo HTML = " + strHtmlConvertido);
   }
 

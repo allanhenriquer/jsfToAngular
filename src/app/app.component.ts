@@ -105,7 +105,9 @@ export class AppComponent {
             case 5:
               next = this.convLink(strTag);
               break;
-            
+            default:
+              next = strTag
+              break
           }
             // adicione o resultado a cada ciclo.
           strHtmlConvertido = strHtmlConvertido.concat(next);

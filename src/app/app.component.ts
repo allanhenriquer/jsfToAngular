@@ -294,7 +294,7 @@ export class AppComponent {
     }
 
      // procura a cada regex e substitua e devolva na varieavel html.
-    html = '<label' + valorTagStyle + valorTagStyleClass + valorTagId + '>' + valorTagValue;
+    html = '<label' + valorTagStyle + valorTagStyleClass + valorTagId + '>' + valorTagValue + '</label>';
     return html;
   }
 

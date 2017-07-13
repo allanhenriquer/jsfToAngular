@@ -79,7 +79,9 @@ export class AppComponent {
             case 5:
               next = this.convLink(strTag);
               break;
-            
+            default:
+              next = strTag
+              break
           }
           strHtmlConvertido = strHtmlConvertido.concat(next);
           // console.log(strHtmlConvertido);

@@ -106,10 +106,12 @@ export class AppComponent {
               next = this.convLink(strTag);
               break;
             default:
-              next = strTag
+              next = strTag.trim();
               break
           }
             // adicione o resultado a cada ciclo.
+            next = next.trim();
+            next = next.concat('\n');
           strHtmlConvertido = strHtmlConvertido.concat(next);
          
         }

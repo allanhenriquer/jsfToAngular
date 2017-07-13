@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+declare var jQuery: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   public fileString;
   private content;
@@ -15,6 +15,17 @@ export class AppComponent {
     this.fileString;
   }
 
+  ngOnInit():void{
+    jQuery(document).ready (function(){
+      jQuery("#success-alert").hide();
+      jQuery("#myWish").click(function showAlert() {
+        jQuery("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+        jQuery("#success-alert").slideUp(500);
+        });   
+      });
+    });
+  }
+  
   loadFile(): void {
     var file = document.getElementById("origem");
     this.readThis(file);
@@ -89,7 +100,8 @@ export class AppComponent {
     });
     strHtmlConvertido.trim();
     this.content = strHtmlConvertido;
-    alert("Finalizado!");
+    // alert("Finalizado!");
+    
     
     console.log("Novo HTML = " + this.content);
   }

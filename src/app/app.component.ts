@@ -14,37 +14,47 @@ export class AppComponent {
   constructor() {
     this.fileString;
   }
+  
+  /*
+  Metodo responsavel por limpar o campo de upload.
+ */
   clearField(): void{
     document.getElementById("mostraHtml").style.display = "none";
   }
 
+  /*
+  Metodo responsavel por carregar o arquivo.
+ */
   loadFile(): void {
     this.clearField();
     var file = document.getElementById("origem");
     this.readThis(file);
   }
 
+  /*
+  Metodo responsavel por ler o arquivo inserido.
+ */
   readThis(inputValue: any): void {
-    var file: File = inputValue.files[0];
-    var myReader: FileReader = new FileReader();
-    myReader.onloadend = function (e) {
-      AppComponent.prototype.convMain(myReader.result);
+    var file: File = inputValue.files[0]; // ler a primeira posição de arquivo que foi inserido.
+    var myReader: FileReader = new FileReader(); 
+    myReader.onloadend = function (e) { // quando terminar de ler e carregar o arquivo, chamar o moto principal.
+      AppComponent.prototype.convMain(myReader.result); // chamada do moto principal.
     }
-    myReader.readAsText(file);
+    myReader.readAsText(file); //ler o arquivo inserido ao mesmo tempo que o onloadend e carregado.
   }
 
-  downloadContent(){
+  downloadContent(){ // 
 
-    var uriContent = encodeURIComponent(this.content);  
+    var uriContent = encodeURIComponent(this.content);  // this.content variavel global que recebe o resultado do motor principal.
     
     var link = document.createElement('a');
-    link.download = 'xhtmlConvertido.html';
+    link.download = 'xhtmlConvertido.html'; // nome do arquivo gerado
     link.href = 'data:,' + uriContent;
-    link.click();
+    link.click(); // ação do botão
 
   }
 
-  convMain(strHtml: string): void {
+  convMain(strHtml: string): void { //motor principal, concentra todas as chamadas para invocar os demais ações.
 
     let strHtmlConvertido: string = "";
     let strTag: string;
@@ -54,17 +64,24 @@ export class AppComponent {
     let arrayCloseTagTo: string[];
     let arrayTags: string[] = [''];
 
+    // array de tags que serão procuradas ao pecorrer o metodo.
     arrayTagFrom = ["p:outputPanel", "h:outputLabel", "h:inputText", "p:commandButton", "p:commandLink"];
 
-    while(strHtml.search(/\s\s+ /gm) > 0){
+    
+ while(strHtml.search(/\s\s+ /gm) > 0){ // enquanto existir espaçamentos entre as tags substitua por " "
       strHtml = strHtml.replace(/\s\s+ /gm, " ");
     }
-    
+    // dentro do arquivo carregado procurar por ">" fechamentos de tag, ao encontrar retire e quebre a linha. 
+    // uma maneira encontrada para separar e alinhar os fechamentos das tags 
     arrayTag = strHtml.split(">");
     arrayTag.forEach(element => {
+
+      // adiciona os fechamentos de forma correta concatenando.
       element = element.concat(">");
       arrayTags.push(element);
     });
+
+    // enquanto existir cases a serem realizados execute.
     arrayTags.forEach(element => {
       strTag = element;
       
@@ -90,17 +107,21 @@ export class AppComponent {
               break;
             
           }
+            // adicione o resultado a cada ciclo.
           strHtmlConvertido = strHtmlConvertido.concat(next);
-          // console.log(strHtmlConvertido);
+         
         }
         x++;
       });
     });
-    strHtmlConvertido.trim();
-    this.content = strHtmlConvertido;
+
+
+    strHtmlConvertido.trim(); // retira os espaços do conteudo.
+    this.content = strHtmlConvertido; // passa o valor para a variavel global que será utilizada para gerar o arquivo do botão do download
+
     alert("Finalizado!");
-    document.getElementById("mostraHtml").style.display = "block";
-    // console.log("Novo HTML = " + this.content);
+    // document.getElementById("mostraHtml").style.display = "block";
+   
   }
 
   convButton(html: string): string {
@@ -113,7 +134,6 @@ export class AppComponent {
 
     var regxStyleClassApas = /styleClass\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica styleClass="conteudo"
     var regxValueApas = /value\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica value="conteudo"
-    var pegaVal = /value\s*/;
     var regxValue = /value\s*=*\s*/; //identifica value=
     var regxStyleApas = /style\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica style="conteudo"
     var regxStyle = /style\s*=*\s*/; //identifica style=
@@ -149,6 +169,7 @@ export class AppComponent {
         valorTagStyleClass = valorTagStyleClass.replace("styleClass", "class");
       }
       
+      // procura a cada regex e substitua e devolva na varieavel tagCorreta.
       var tagCorreta = "<button" + valorOnClick + valorId + valorTagStyleClass + " " + valorTagStyle + ">" + valorTagValue + "</button>"
       return tagCorreta;
 
@@ -228,6 +249,7 @@ export class AppComponent {
 
       }
 
+      // procura a cada regex e substitua e devolva na varieavel tagCorreta.
       var tagCorreta = "<a" + valorOnClick + valorId + valorTarget + valorRel + valorRev + valorHrefLang + valorTagStyleClass + " " + valorTagStyle + ">" + valorTagValue + "</a>"
       return tagCorreta;
     } else {
@@ -271,20 +293,22 @@ export class AppComponent {
 
     }
 
+     // procura a cada regex e substitua e devolva na varieavel html.
     html = '<label' + valorTagStyle + valorTagStyleClass + valorTagId + '>' + valorTagValue;
     return html;
   }
 
+  // pegar o valor de um atributo value dentro da tag e 
+  // retorna entra as tags de abertura e fechamento
   pegaConteudo(html: string, regxToFindAspas, regxToFind): string {
 
     var regxEspaco = /\s/g;
 
     var pegaValue = regxToFind.exec(html);
-    pegaValue[0] = pegaValue[0].replace(regxEspaco, "");
+    pegaValue[0] = pegaValue[0].replace(regxEspaco, ""); // elemina todos os espaços entre tags.
     var html = html.replace(regxToFind, pegaValue[0]);
 
     var novoRegx = regxToFindAspas.exec(html);
-
     var indexValue = novoRegx[0].indexOf("value");
     var sbStrValue = novoRegx[0].substring(indexValue + 7, novoRegx[0].length - 1);
 
@@ -294,30 +318,30 @@ export class AppComponent {
   convInput(html: string): string {
 
     var regxInputText = /h:inputText\s*/; //identifica p:inputText
-    var regxRendered = /rendered\s*=*\s*/;
-    var regxBinding = /\s*binding\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
-    var regxConverter = /\s*converter\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
-    var regxImmediate = /\s*immediate\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
-    var regxValidator = /\s*validator\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/;
-    var regxStyleClass = /styleClass\s*=*\s*/;
+    var regxRendered = /rendered\s*=*\s*/; //identifica rendered
+    var regxBinding = /\s*binding\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica binding
+    var regxConverter = /\s*converter\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica converter
+    var regxImmediate = /\s*immediate\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica immediate
+    var regxValidator = /\s*validator\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica validator
+    var regxStyleClass = /styleClass\s*=*\s*/; //identifica styleClass
 
-    html = html.replace(regxInputText, "input ");
+    html = html.replace(regxInputText, "input "); // troca todos os inputText por input
 
     if (html.search(regxRendered) || html.search(regxBinding) || html.search(regxConverter) ||
       html.search(regxImmediate) || html.search(regxValidator) || regxStyleClass !== null) {
 
-      html = html.replace(regxRendered, "*ngIf=");
-      html = html.replace(regxBinding, "");
+      html = html.replace(regxRendered, "*ngIf="); // troca todos os rendered por ngIf=
+      html = html.replace(regxBinding, ""); 
       html = html.replace(regxConverter, "");
       html = html.replace(regxImmediate, "");
       html = html.replace(regxValidator, "");
-      html = html.replace(regxStyleClass, "class=");
+      html = html.replace(regxStyleClass, "class="); //troca todos os styleClass por class=
 
     }
     return html;
   }
 
-  convDiv(html: string): string {
+  convDiv(html: string): string {  //responsavel por trocar conteudo dentro das div
     html = html.replace("p:outputPanel", "div");
     html = html.replace("styleClass", "class");
     html = html.replace("rendered", "*ngIf");

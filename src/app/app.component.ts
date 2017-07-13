@@ -321,7 +321,7 @@ export class AppComponent {
 
   convInput(html: string): string {
 
-    var regxInputText = /h:inputText\s*/; //identifica p:inputText
+    var regxInputText = /p:inputText\s*/; //identifica p:inputText
     var regxRendered = /rendered\s*=*\s*/; //identifica rendered
     var regxBinding = /\s*binding\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica binding
     var regxConverter = /\s*converter\s*=*\s*(["'])(?:(?=(\\?))\2.)*?\1/; //identifica converter

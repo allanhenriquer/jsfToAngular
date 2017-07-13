@@ -3,46 +3,43 @@
 <body>
     <div id="telainteira" align="center">
         <div id="icone">
-
             <img class="img-responsive" src="../assets/angular-icon.png" />
-
         </div>
         <div id="espaco">
         </div>
-
         <div id="conteudo">
             <div class="row">
                 <div class="col-xs-3">
                 </div>
                 <div class="col-xs-6">
-
                     <label style="color:white;" for="usr">Origem:</label>
                     <div class="input-group ">
-                        <input type="file" class="form-control" id="origem">
+                        <input type="file" class="form-control" id="origem" (click)="clearField()">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default" (click)="loadFile()">
-              <span class="glyphicon glyphicon-upload"></span>
-              </button>
+                            <span class="glyphicon glyphicon-upload"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div id="espaco">
-
             </div>
-
             <div class="row">
                 <div class="col-xs-3">
                 </div>
                 <div class="col-xs-6">
-
-
                     <div class="input-group ">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default" (click)="downloadContent()">Download <span class="glyphicon glyphicon-download-alt"></span></button>
                         </div>
                     </div>
+                </div>
+                <span></span>
+                <div id="mostraHtml" style="display:none">
+                    <textarea disabled="true" name="" rows="20" class="col-xs-8  col-md-8 col-lg-8 form-control" style="font-size: 20px; font-weight: bold;">
+                    {{content}}
+                    </textarea>
                 </div>
             </div>
         </div>

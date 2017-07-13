@@ -14,8 +14,12 @@ export class AppComponent {
   constructor() {
     this.fileString;
   }
+  clearField(): void{
+    document.getElementById("mostraHtml").style.display = "none";
+  }
 
   loadFile(): void {
+    this.clearField();
     var file = document.getElementById("origem");
     this.readThis(file);
   }
@@ -51,6 +55,11 @@ export class AppComponent {
     let arrayTags: string[] = [''];
 
     arrayTagFrom = ["p:outputPanel", "h:outputLabel", "h:inputText", "p:commandButton", "p:commandLink"];
+
+    while(strHtml.search(/\s\s+ /gm) > 0){
+      strHtml = strHtml.replace(/\s\s+ /gm, " ");
+    }
+    
     arrayTag = strHtml.split(">");
     arrayTag.forEach(element => {
       element = element.concat(">");
@@ -90,8 +99,8 @@ export class AppComponent {
     strHtmlConvertido.trim();
     this.content = strHtmlConvertido;
     alert("Finalizado!");
-    
-    console.log("Novo HTML = " + this.content);
+    document.getElementById("mostraHtml").style.display = "block";
+    // console.log("Novo HTML = " + this.content);
   }
 
   convButton(html: string): string {

@@ -62,6 +62,10 @@ export class AppComponent implements OnInit {
 
   }
 
+  displayFile(){
+    window.open("https://angular.io/docs", "_blank");
+}
+
   convMain(strHtml: string): void { //motor principal, concentra todas as chamadas para invocar os demais ações.
 
     let strHtmlConvertido: string = "";

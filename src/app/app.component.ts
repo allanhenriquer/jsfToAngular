@@ -45,8 +45,8 @@ export class AppComponent implements OnInit {
   readThis(inputValue: any): void {
     var file: File = inputValue.files[0]; // ler a primeira posição de arquivo que foi inserido.
     var myReader: FileReader = new FileReader(); 
-    myReader.onloadend = function (e) { // quando terminar de ler e carregar o arquivo, chamar o moto principal.
-      AppComponent.prototype.convMain(myReader.result); // chamada do moto principal.
+    myReader.onloadend = function (e) { // quando terminar de ler e carregar o arquivo, chamar o motor principal.
+      AppComponent.prototype.convMain(myReader.result); // chamada do motor principal.
     }
     myReader.readAsText(file); //ler o arquivo inserido ao mesmo tempo que o onloadend e carregado.
   }
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
     let arrayTags: string[] = [''];
 
     // array de tags que serão procuradas ao pecorrer o metodo.
-    arrayTagFrom = ["p:outputPanel", "h:outputLabel", "h:inputText", "p:commandButton", "p:commandLink"];
+    arrayTagFrom = ["p:outputPanel", "h:outputLabel", "p:inputText", "p:commandButton", "p:commandLink"];
 
     
  while(strHtml.search(/\s\s+ /gm) > 0){ // enquanto existir espaçamentos entre as tags substitua por " "

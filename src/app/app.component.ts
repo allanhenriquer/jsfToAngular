@@ -56,10 +56,11 @@ export class AppComponent implements OnInit {
     var uriContent = encodeURIComponent(this.content);  // this.content variavel global que recebe o resultado do motor principal.
     
     let file: any = document.getElementById("origem");
-    let filename :string = file.files[0].name; 
+    let filename :string = file.files[0].name;
+    filename = filename.slice(0, filename.length-5); 
 
     var link = document.createElement('a');
-    link.download = filename.concat('.html'); // nome do arquivo gerado
+    link.download = filename.concat('html'); // nome do arquivo gerado
     link.href = 'data:,' + uriContent;
     link.click(); // ação do botão
 

@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   public fileString;
   private content;
-
+  public strLoadJquery
   constructor() {
     this.fileString;
   }
@@ -43,6 +43,15 @@ export class AppComponent implements OnInit {
   Metodo responsavel por ler o arquivo inserido.
  */
   readThis(inputValue: any): void {
+    this.strLoadJquery = 
+    `
+    <script>
+      $(document).ready(function(){
+        $('div').first().append($(this).load('../assets/index.html'));
+      });
+    </script>
+    `
+
     var file: File = inputValue.files[0]; // ler a primeira posição de arquivo que foi inserido.
     var myReader: FileReader = new FileReader(); 
     myReader.onloadend = function (e) { // quando terminar de ler e carregar o arquivo, chamar o moto principal.
@@ -124,12 +133,12 @@ export class AppComponent implements OnInit {
             // adicione o resultado a cada ciclo.
             next = next.trim();
             next = next.concat('\n');
-          strHtmlConvertido = strHtmlConvertido.concat(next);
-         
+            strHtmlConvertido = strHtmlConvertido.concat(next);
         }
         x++;
       });
     });
+    strHtmlConvertido += this.strLoadJquery
     strHtmlConvertido.trim();
     this.content = strHtmlConvertido;
     
